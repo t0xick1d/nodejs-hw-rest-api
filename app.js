@@ -1,8 +1,10 @@
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
-// just create a branch 
+require('dotenv').config();
+
 const contactsRouter = require('./routes/api/contacts')
+
 
 const app = express()
 
