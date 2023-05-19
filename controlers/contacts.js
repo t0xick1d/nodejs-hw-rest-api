@@ -1,18 +1,16 @@
-const { nanoid } = require('nanoid');
-
-const contacts = require('../models/contacts');
+const { Contact } = require('../models/contact');
 
 const { HttpError } = require('../helper');
 const { ctrlWrapper } = require('../helper');
 
 const getAll = async (req, res, next) => {
-  const result = await contacts.listContacts();
+  const result = await Contact.find();
   res.status(200).json(result);
 };
 
 const getById = async (req, res, next) => {
   const { contactId } = req.params;
-  const result = await contacts.getContactById(contactId);
+  const result = await Contact.findById(contactId);
   if (!result) {
     console.log(HttpError);
     throw HttpError(404, 'Not found');
@@ -22,14 +20,13 @@ const getById = async (req, res, next) => {
 
 const add = async (req, res, next) => {
   const body = req.body;
-  const id = nanoid();
-  const newContact = await contacts.addContact({ id, ...body });
+  const newContact = await Contact.create(body);
   res.status(201).json(newContact);
 };
 
 const deleteById = async (req, res, next) => {
   const { contactId } = req.params;
-  const deleteContact = await contacts.removeContact(contactId);
+  const deleteContact = await Contact.findByIdAndRemove(contactId);
   if (!deleteContact) {
     throw HttpError(404, 'Not found');
   }
@@ -37,12 +34,8 @@ const deleteById = async (req, res, next) => {
 };
 
 const updateById = async (req, res, next) => {
-  const { contactId } = req.params;
-  const body = req.body;
-  if (!contactId) {
-    throw HttpError(400, 'missing fields');
-  }
-  const updateContact = await contacts.updateContact(contactId, body);
+  const id = req.params.contactId;
+  const updateContact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
   if (!updateContact) {
     throw HttpError(400, 'missing fields');
   }
