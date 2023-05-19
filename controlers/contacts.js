@@ -41,6 +41,14 @@ const updateById = async (req, res, next) => {
   }
   res.status(200).json(updateContact);
 };
+const updateStatusContact = async (req, res, next) => {
+  const id = req.params.contactId;
+  const updateStatusContact = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+  if (!updateStatusContact) {
+    throw HttpError(400, 'missing fields');
+  }
+  res.status(200).json(updateStatusContact);
+};
 
 module.exports = {
   getAll: ctrlWrapper(getAll),
@@ -48,4 +56,5 @@ module.exports = {
   add: ctrlWrapper(add),
   deleteById: ctrlWrapper(deleteById),
   updateById: ctrlWrapper(updateById),
+  updateStatusContact: ctrlWrapper(updateStatusContact),
 };

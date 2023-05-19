@@ -6,7 +6,7 @@ const ctrl = require('../../controlers/contacts');
 
 const { validateBody, isValidId } = require('../../middleweres/');
 
-const { schema } = require('../../models/contact');
+const { schema, updateFavoriteSchema } = require('../../models/contact');
 
 router.get('/', ctrl.getAll);
 
@@ -17,5 +17,12 @@ router.post('/', validateBody(schema), ctrl.add);
 router.delete('/:contactId', isValidId, ctrl.deleteById);
 
 router.put('/:contactId', isValidId, validateBody(schema), ctrl.updateById);
+
+router.patch(
+  '/:contactId/favorite',
+  isValidId,
+  validateBody(updateFavoriteSchema),
+  ctrl.updateStatusContact,
+);
 
 module.exports = router;

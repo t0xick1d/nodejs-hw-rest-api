@@ -10,6 +10,10 @@ const schema = Joi.object({
   favorite: Joi.boolean(),
 });
 
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
 const contactSchema = new Schema({
   name: {
     type: String,
@@ -31,4 +35,4 @@ contactSchema.post('save', handleMongooseError);
 
 const Contact = model('contact', contactSchema);
 
-module.exports = { Contact, schema }; 
+module.exports = { Contact, schema, updateFavoriteSchema }; 
