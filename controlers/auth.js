@@ -19,6 +19,7 @@ const register = async (req, res) => {
 
   res.status(201).json({
     email: newUser.email,
+    subscription: newUser.subscription,
   });
 };
 
@@ -26,7 +27,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw HttpError(400);
+    throw HttpError(401);
   }
   const passwordCompare = await bcryp.compare(password, user.password);
   if (!passwordCompare) {

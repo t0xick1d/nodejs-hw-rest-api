@@ -4,7 +4,7 @@ const validateBody = (shema) => {
   const func = (req, res, next) => {
     const { error } = shema.validate(req.body);
     if (error && req.method === 'POST') {
-      next(HttpError(404, 'missing required name field'));
+      next(HttpError(400));
     }
     if (error && req.method === 'PUT') {
       next(HttpError(400, 'missing fields'));
