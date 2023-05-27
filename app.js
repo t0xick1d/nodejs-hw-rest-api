@@ -6,7 +6,6 @@ require('dotenv').config();
 const authRouter = require('./routes/api/auth');
 const contactsRouter = require('./routes/api/contacts');
 
-// create new branch
 const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
