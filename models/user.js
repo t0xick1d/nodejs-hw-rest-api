@@ -7,6 +7,9 @@ const registerSchema = Joi.object({
   email: Joi.string().required(),
   password: Joi.string().required(),
 });
+const emailSchema = Joi.object({
+  email: Joi.string().required(),
+});
 
 const userSchema = new Schema({
   password: {
@@ -28,10 +31,18 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
 });
 
 userSchema.post('save', handleMongooseError);
 
 const User = model('user', userSchema);
 
-module.exports = { User, registerSchema };
+module.exports = { User, registerSchema, emailSchema };
